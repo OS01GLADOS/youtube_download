@@ -8,7 +8,12 @@ if not os.path.isdir('download'):
 url = input('paste URL here:')
 youtube = pytube.YouTube(url)
 audio = youtube.streams.filter(progressive=False).get_audio_only(subtype='webm')
-video = youtube.streams.get_by_itag(137)
+videos = youtube.streams.filter(progressive=False)
+print('this quality was founded:')
+for video in videos:
+    if video.resolution is not None:
+        print(f'res: {video.resolution}, itag = {video.itag}')
+video = videos.get_by_itag(input('input itag to choose resolution:'))
 
 title = video.title.replace(' ', '_')
 regex = re.compile('[^\w_\@(){}\[\]]')
